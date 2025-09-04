@@ -2,8 +2,10 @@ name: Build & Release
 
 on:
   push:
+    branches:
+      - master
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   build:
@@ -20,4 +22,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/popular-search.zip
-
