@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Popular Search Tracker
  * Description: Track search terms and counts.
- * Version: 0.0.1
+ * Version: 0.0.4
  * Author: Ikechukwu11
  */
 

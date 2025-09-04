@@ -19,8 +19,9 @@ jobs:
       - name: Get plugin version
         id: get_version
         run: |
-          VERSION=$(grep -i "Version:" popular-search.php | awk '{print $2}')
+          VERSION=$(grep -i "Version:" popular-search.php | sed -E 's/.*Version:[[:space:]]*([0-9.]+).*/\1/')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Detected version: $VERSION"
 
       - name: Check if tag exists
         id: check_tag
