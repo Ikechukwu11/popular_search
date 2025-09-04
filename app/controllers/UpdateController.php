@@ -33,7 +33,7 @@ class UpdateController extends Controller
   {
     $url = "https://api.github.com/repos/{$this->repo}/releases/latest";
     $response = wp_remote_get($url, [
-      'headers' => ['User-Agent' => 'WordPress']
+      'headers' => ['User-Agent' => 'Popular-Search-Updater']
     ]);
 
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
@@ -41,6 +41,21 @@ class UpdateController extends Controller
     }
 
     return json_decode(wp_remote_retrieve_body($response));
+  }
+
+  /**
+   * Get best download link from release (prefer uploaded zip asset)
+   */
+  protected function getDownloadUrl($release)
+  {
+    if (!empty($release->assets)) {
+      foreach ($release->assets as $asset) {
+        if (str_ends_with($asset->name, '.zip')) {
+          return $asset->browser_download_url;
+        }
+      }
+    }
+    return $release->zipball_url; // fallback
   }
 
   public function checkForUpdates($transient)
@@ -63,7 +78,7 @@ class UpdateController extends Controller
         'plugin'      => $this->pluginFile,
         'new_version' => $latestVersion,
         'url'         => $release->html_url,
-        'package'     => $release->assets[0]->browser_download_url ?? $release->zipball_url,
+        'package'     => $this->getDownloadUrl($release),
       ];
     }
 
@@ -81,15 +96,19 @@ class UpdateController extends Controller
       return $result;
     }
 
+    $latestVersion = ltrim($release->tag_name, 'v');
+    $download      = $this->getDownloadUrl($release);
+
     return (object)[
       'name'          => 'Popular Search',
       'slug'          => $this->slug,
-      'version'       => ltrim($release->tag_name, 'v'),
+      'version'       => $latestVersion,
       'author'        => '<a href="https://github.com/Ikechukwu11">You</a>',
       'homepage'      => $release->html_url,
-      'download_link' => $release->assets[0]->browser_download_url ?? $release->zipball_url,
+      'download_link' => $download,
       'sections'      => [
-        'description' => $release->body ?? 'Track search terms and counts.',
+        'description' => 'Track search terms and counts.',
+        'changelog'   => nl2br($release->body ?? 'No changelog provided.'), // ✅ changelog pulled from GitHub release body
       ],
     ];
   }

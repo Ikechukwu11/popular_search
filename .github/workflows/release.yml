@@ -26,6 +26,19 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Detected version: $VERSION"
 
+      - name: Extract changelog for this version
+        id: changelog
+        run: |
+          VERSION="${{ env.VERSION }}"
+          # Grab section from CHANGELOG.md for current version
+          LOG=$(awk "/## \\[$VERSION\\]/,/## \\[/" CHANGELOG.md | sed '$d')
+          if [ -z "$LOG" ]; then
+            LOG="No changelog entry found."
+          fi
+          echo "LOG<<EOF" >> $GITHUB_ENV
+          echo "$LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Check if tag exists
         id: check_tag
         run: |
@@ -56,6 +69,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ env.VERSION }}
+          body: ${{ env.LOG }} # ✅ include changelog in release
           files: dist/popular-search.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
