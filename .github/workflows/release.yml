@@ -6,6 +6,9 @@ on:
       - "master"
   workflow_dispatch:
 
+permissions:
+  contents: write # ✅ allow pushing tags & creating releases
+
 jobs:
   release:
     runs-on: ubuntu-latest
