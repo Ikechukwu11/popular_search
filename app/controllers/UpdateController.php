@@ -8,10 +8,29 @@ class UpdateController extends Controller
   protected $pluginFile = 'popular-search/popular-search.php';
   protected $slug = 'popular-search';
 
-  public function __construct()
+  // public function __construct()
+  // {
+  //   add_filter('site_transient_update_plugins', [$this, 'checkForUpdates']);
+  //   add_filter('plugins_api', [$this, 'pluginInfo'], 10, 3);
+  //   echo 'Yoooo';
+  // }
+
+    public static function hooks()
   {
-    add_filter('site_transient_update_plugins', [$this, 'checkForUpdates']);
-    add_filter('plugins_api', [$this, 'pluginInfo'], 10, 3);
+    $controller = new self();
+
+    return [
+      [
+        'hook' => 'site_transient_update_plugins',
+        'callback' => [$controller, 'checkForUpdates'],
+        'type'=>'filter'
+      ],
+      [
+        'hook' => 'plugins_api',
+        'callback' => [$controller, 'pluginInfo'],
+        'type'=>'filter'
+      ]
+    ];
   }
 
   public function checkForUpdates($transient)

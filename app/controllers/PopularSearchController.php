@@ -32,9 +32,9 @@ class PopularSearchController extends Controller
 
   public function index()
   {
-    $search = $this->model->all();
+    $keywords = $this->model->all();
     return $this->render('backend/search/index', [
-      'search' => $search
+      'keywords' => $keywords
     ]);
   }
 
