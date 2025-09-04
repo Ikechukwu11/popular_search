@@ -46,7 +46,11 @@ jobs:
       - name: Zip Plugin
         run: |
           mkdir -p dist
-          zip -r dist/popular-search.zip . -x "*.git*" ".github*" "dist/*" "logs/*"
+          mkdir -p dist/popular-search
+          rsync -av --progress ./ dist/popular-search \
+            --exclude dist --exclude .git --exclude .github --exclude logs
+          cd dist
+          zip -r popular-search.zip popular-search
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
