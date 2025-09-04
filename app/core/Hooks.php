@@ -1,6 +1,6 @@
 <?php
 
-namespace ABCEvents\Core;
+namespace PopularSeach\Core;
 
 class Hooks
 {
@@ -10,7 +10,7 @@ class Hooks
       require_once $file;
 
       $class = basename($file, '.php');
-      $fqcn = "\\ABCEvents\\Controllers\\$class";
+      $fqcn = "\\PopularSeach\\Controllers\\$class";
 
       if (class_exists($fqcn) && method_exists($fqcn, 'hooks')) {
         $controllerHooks = $fqcn::hooks();

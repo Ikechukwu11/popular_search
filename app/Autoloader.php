@@ -1,6 +1,6 @@
 <?php
 
-namespace ABCEvents;
+namespace PopularSeach;
 
 class Autoloader
 {

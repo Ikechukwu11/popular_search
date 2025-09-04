@@ -1,0 +1,10 @@
+{
+  "name": "Popular Search Tracker",
+  "slug": "popular-search-tracker",
+  "version": "0.0.1",
+  "download_url": " https://github.com/Ikechukwu11/popular_search/releases/download/v0.0.1/popular-search-tracker.zip",
+  "tested": "6.6",
+  "requires": "5.0",
+  "author": "Ikechukwu11",
+  "homepage": " https://github.com/Ikechukwu11/popular_search"
+}

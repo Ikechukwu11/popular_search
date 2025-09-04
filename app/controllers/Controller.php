@@ -1,8 +1,8 @@
 <?php
 
-namespace ABCEvents\Controllers;
+namespace PopularSeach\Controllers;
 
 class Controller
 {
-  protected $event_year = "2026";
+
 }

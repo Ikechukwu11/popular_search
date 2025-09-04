@@ -1,6 +1,6 @@
 <?php
 
-namespace ABCEvents\Core;
+namespace PopularSeach\Core;
 
 class Router
 {

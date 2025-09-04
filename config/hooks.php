@@ -1,6 +1,6 @@
 <?php
 
-use ABCEvents\Core\Hooks;
+use PopularSeach\Core\Hooks;
 
-$controllersPath = ABCEVENTS_PATH . 'app/controllers/';
+$controllersPath = SEARCH_PATH . 'app/controllers/';
 Hooks::register($controllersPath);

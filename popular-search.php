@@ -2,9 +2,9 @@
 
 /**
  * Plugin Name: Popular Search Tracker
- * Description: Track search terms and counts (MVC demo with updater).
+ * Description: Track search terms and counts.
  * Version: 0.0.1
- * Author: You
+ * Author: Ikechukwu11
  */
 
 if (!defined('ABSPATH')) exit;
@@ -56,13 +56,12 @@ set_exception_handler(function ($exception) {
 // Autoloader
 // ============================
 require_once SEARCH_PATH . '/app/Autoloader.php';
-ABCEvents\Autoloader::load();
+PopularSeach\Autoloader::load();
 
 // ============================
 // Boot Plugin Routes
 // ============================
 add_action('plugins_loaded', function () {
-  require_once SEARCH_PATH . '/helpers/helpers.php';
   require_once SEARCH_PATH . '/routes/routes.php';
   require_once SEARCH_PATH . '/config/hooks.php';
 });
@@ -72,5 +71,5 @@ add_action('plugins_loaded', function () {
 // ============================
 register_activation_hook(__FILE__, function () {
   require_once SEARCH_PATH . 'app/core/Migration.php';
-  ABCEvents\Core\Migration::run();
+  PopularSeach\Core\Migration::run();
 });
