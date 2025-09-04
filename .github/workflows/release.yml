@@ -46,12 +46,12 @@ jobs:
       - name: Zip Plugin
         run: |
           mkdir -p dist
-          zip -r dist/my-plugin.zip . -x "*.git*" ".github*" "dist/*" "logs/*"
+          zip -r dist/popular-search.zip . -x "*.git*" ".github*" "dist/*" "logs/*"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ env.VERSION }}
-          files: dist/my-plugin.zip
+          files: dist/popular-search.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
