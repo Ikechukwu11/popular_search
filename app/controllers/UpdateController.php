@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace PopularSeach\Controllers;
 
-class UpdateController
+class UpdateController extends Controller
 {
   protected $remoteUrl = 'https://raw.githubusercontent.com/Ikechukwu11/popular_search/master/update.json';
   protected $pluginFile = 'popular-search/popular-search.php';
