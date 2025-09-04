@@ -3,9 +3,13 @@
 /**
  * Plugin Name: Popular Search Tracker
  * Description: Track search terms and counts.
- * Version: 0.0.7
+ * Version: 0.0.8
  * Author: Ikechukwu11
  * Author URI: https://github.com/Ikechukwu11
+ * Requires at least: 6.0
+ * Requires PHP: 8.0
+ * Icon: assets/icon-128x128.png
+ * Icon-128: assets/icon-128x128.png
  */
 
 if (!defined('ABSPATH')) exit;
