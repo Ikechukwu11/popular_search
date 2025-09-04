@@ -1,24 +1,53 @@
-name: Build & Release
+name: Semi-Auto Build & Release
 
 on:
   push:
     branches:
-      - master
-    tags:
-      - "v*.*.*"
+      - "master"
+  workflow_dispatch:
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # important so tags are fetched
+
+      - name: Get plugin version
+        id: get_version
+        run: |
+          VERSION=$(grep -i "Version:" popular-search.php | awk '{print $2}')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create tag
+        if: env.exists == 'false'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
 
       - name: Zip Plugin
         run: |
-          mkdir dist
-          zip -r dist/popular-search.zip . -x "*.git*" -x "dist/*" -x ".github/*" -x "logs/*"
+          mkdir -p dist
+          zip -r dist/my-plugin.zip . -x "*.git*" ".github*" "dist/*" "logs/*"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
         with:
-          files: dist/popular-search.zip
+          tag_name: v${{ env.VERSION }}
+          files: dist/my-plugin.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
