@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Popular Search Tracker
  * Description: Track search terms and counts.
- * Version: 0.0.4
+ * Version: 0.0.5
  * Author: Ikechukwu11
  */
 
@@ -17,11 +17,18 @@ define('SEARCH_URL', plugin_dir_url(__FILE__));
 define('SEARCH_LOG', SEARCH_PATH . 'logs/plugin-errors.log'); // dedicated log file
 
 // ============================
-// Ensure logs directory exists
+// Ensure logs directory exists safely
 // ============================
-if (!file_exists(dirname(SEARCH_LOG))) {
-  mkdir(dirname(SEARCH_LOG), 0755, true);
+$log_dir = dirname(SEARCH_LOG);
+if (!is_dir($log_dir)) {
+    // Use wp_mkdir_p for WordPress-safe recursive creation
+    if (function_exists('wp_mkdir_p')) {
+        wp_mkdir_p($log_dir);
+    } else {
+        mkdir($log_dir, 0755, true);
+    }
 }
+
 
 // ============================
 // Error & Exception Handlers
